@@ -1,19 +1,17 @@
-
-
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Valeria aka sabrina, Will you be my Valentine?</title>
+  <title>Valentine</title>
   <style>
     :root{
-      --bg:#ff7eb6;        /* rosa chicle */
+      --bg:#ff7eb6;
       --card:#ffffffd9;
-      --yes:#2ecc71;       /* verde botón */
-      --no:#ff3b30;        /* rojo botón */
+      --yes:#2ecc71;
+      --no:#ff3b30;
       --text:#1f1f1f;
-      --heart:#ff5aa8;     /* corazones rosita */
+      --heart:#ff5aa8;
     }
     *{box-sizing:border-box}
     body{
@@ -37,8 +35,8 @@
       position:relative;
     }
     h1{
-      margin:0 0 10px;
-      font-size: clamp(24px, 4.5vw, 36px);
+      margin:0 0 12px;
+      font-size: clamp(24px, 4.5vw, 34px);
     }
 
     .stage{
@@ -60,6 +58,7 @@
       min-width:140px;
     }
     .btn:active{ transform: scale(.98); }
+
     .yes{
       background:var(--yes);
       color:white;
@@ -83,7 +82,24 @@
 
     .hidden{ display:none; }
 
-    /* confetti */
+    .plan{
+      font-size:20px;
+      font-weight:700;
+      line-height:1.6;
+    }
+
+    .finalMessage{
+      margin-top:20px;
+      font-size:18px;
+      font-weight:600;
+      color:#333;
+    }
+
+    .heart{
+      color:var(--heart);
+      font-size:26px;
+    }
+
     .confetti{
       position:fixed;
       top:-10px;
@@ -94,18 +110,9 @@
       border-radius:3px;
       animation: fall linear forwards;
     }
+
     @keyframes fall{
       to { transform: translateY(110vh) rotate(720deg); opacity:1; }
-    }
-
-    .plan{
-      font-size:20px;
-      font-weight:700;
-      line-height:1.6;
-    }
-    .heart{
-      color:var(--heart);
-      font-size:26px;
     }
   </style>
 </head>
@@ -113,7 +120,7 @@
 
   <!-- Pantalla 1 -->
   <div class="card" id="screen1">
-    <h1>Will you be my Valentine? 💘</h1>
+    <h1>Valeria, will you be my Valentine? 💘</h1>
 
     <div class="stage" id="stage">
       <div class="yesWrap">
@@ -127,11 +134,16 @@
   <div class="card hidden" id="screen2">
     <h1>Perfecto 😍</h1>
     <div class="plan">
-      Plan confirmado con tu amoret:<br><br>
+      Plan confirmado:<br><br>
       🍽️ Cena<br>
       💐 Flores<br>
       💋 Beso<br><br>
       <span class="heart">💗💗💗</span>
+    </div>
+
+    <div class="finalMessage">
+      Nos vemos en <b>Mo de Movimiento</b><br>
+      a las <b>21:15</b> 💗
     </div>
   </div>
 
@@ -142,7 +154,7 @@ const stage = document.getElementById('stage');
 const screen1 = document.getElementById('screen1');
 const screen2 = document.getElementById('screen2');
 
-// El botón NO huye
+// Botón NO huye
 function dodgeNo(){
   const stageRect = stage.getBoundingClientRect();
   const pad = 12;
@@ -182,5 +194,6 @@ function burstConfetti(n=80){
 
 dodgeNo();
 </script>
+
 </body>
 </html>
