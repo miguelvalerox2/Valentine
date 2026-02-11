@@ -1,0 +1,186 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Will you be my Valentine?</title>
+  <style>
+    :root{
+      --bg:#ff7eb6;        /* rosa chicle */
+      --card:#ffffffd9;
+      --yes:#2ecc71;       /* verde botón */
+      --no:#ff3b30;        /* rojo botón */
+      --text:#1f1f1f;
+      --heart:#ff5aa8;     /* corazones rosita */
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #ff9bd0 0%, var(--bg) 45%, #ff5aa8 100%);
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      color:var(--text);
+    }
+    .card{
+      width:min(520px, 92vw);
+      background:var(--card);
+      backdrop-filter: blur(8px);
+      border-radius:24px;
+      padding:28px 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+      text-align:center;
+      position:relative;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(24px, 4.5vw, 36px);
+    }
+
+    .stage{
+      position:relative;
+      height:180px;
+      margin-top:10px;
+    }
+
+    .btn{
+      border:0;
+      padding:14px 18px;
+      border-radius:14px;
+      font-size:18px;
+      font-weight:700;
+      cursor:pointer;
+      transition: transform .08s ease, filter .2s ease;
+      user-select:none;
+      touch-action: manipulation;
+      min-width:140px;
+    }
+    .btn:active{ transform: scale(.98); }
+    .yes{
+      background:var(--yes);
+      color:white;
+      box-shadow: 0 10px 25px rgba(46,204,113,.35);
+    }
+    .no{
+      background:var(--no);
+      color:white;
+      position:absolute;
+      left:52%;
+      top:90px;
+      transform: translateX(-50%);
+    }
+
+    .yesWrap{
+      position:absolute;
+      left:50%;
+      top:24px;
+      transform: translateX(-50%);
+    }
+
+    .hidden{ display:none; }
+
+    /* confetti */
+    .confetti{
+      position:fixed;
+      top:-10px;
+      width:10px;
+      height:16px;
+      opacity:.9;
+      pointer-events:none;
+      border-radius:3px;
+      animation: fall linear forwards;
+    }
+    @keyframes fall{
+      to { transform: translateY(110vh) rotate(720deg); opacity:1; }
+    }
+
+    .plan{
+      font-size:20px;
+      font-weight:700;
+      line-height:1.6;
+    }
+    .heart{
+      color:var(--heart);
+      font-size:26px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla 1 -->
+  <div class="card" id="screen1">
+    <h1>Will you be my Valentine? 💘</h1>
+
+    <div class="stage" id="stage">
+      <div class="yesWrap">
+        <button class="btn yes" id="yesBtn">YES 💗</button>
+      </div>
+      <button class="btn no" id="noBtn">NO ❤️</button>
+    </div>
+  </div>
+
+  <!-- Pantalla 2 -->
+  <div class="card hidden" id="screen2">
+    <h1>Perfecto 😍</h1>
+    <div class="plan">
+      Plan confirmado:<br><br>
+      🍽️ Cena<br>
+      💐 Flores<br>
+      💋 Beso<br><br>
+      <span class="heart">💗💗💗</span>
+    </div>
+  </div>
+
+<script>
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const stage = document.getElementById('stage');
+const screen1 = document.getElementById('screen1');
+const screen2 = document.getElementById('screen2');
+
+// El botón NO huye
+function dodgeNo(){
+  const stageRect = stage.getBoundingClientRect();
+  const pad = 12;
+  const maxX = stageRect.width - noBtn.offsetWidth - pad;
+  const maxY = stageRect.height - noBtn.offsetHeight - pad;
+
+  const x = pad + Math.random() * Math.max(0, maxX - pad);
+  const y = pad + Math.random() * Math.max(0, maxY - pad);
+
+  noBtn.style.left = x + 'px';
+  noBtn.style.top  = y + 'px';
+  noBtn.style.transform = 'none';
+}
+
+['pointerenter','pointermove','touchstart'].forEach(evt => {
+  stage.addEventListener(evt, dodgeNo, { passive: true });
+});
+
+// YES → segunda pantalla + confeti
+yesBtn.addEventListener('click', () => {
+  burstConfetti(120);
+  screen1.classList.add("hidden");
+  screen2.classList.remove("hidden");
+});
+
+function burstConfetti(n=80){
+  for(let i=0;i<n;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.animationDuration = (1.4 + Math.random()*1.8) + 's';
+    c.style.background = `hsl(${Math.floor(Math.random()*360)}, 90%, 60%)`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 3500);
+  }
+}
+
+dodgeNo();
+</script>
+</body>
+</html>
